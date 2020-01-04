@@ -3,7 +3,7 @@ import './App.sass';
 
 function App() {
   return (
-    <div className="App">Привет нафиг</div>
+    <div className="App">привет нафиг</div>
   );
 }
 
