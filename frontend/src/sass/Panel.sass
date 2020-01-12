@@ -1,13 +1,33 @@
+@keyframes rotating
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
 .panel
+  display: flex
+  flex-direction: column
+  align-items: flex-end
   position: absolute
   right: 0
   top: 0
   z-index: 100500
-  .top
-    display: flex
-    justify-content: flex-end
-    align-items: center
-    .reset
-      margin: 10px
-      
-    
+  .reset
+    margin: 20px
+  .loader
+    margin-right: 20px
+    .outer
+      animation: rotating 2s linear infinite;
+      width: 40px
+      height: 40px
+      border: 4px solid #ffffff
+      box-sizing: border-box
+      border-radius: 20px
+      background: rgba(0, 0, 0, .2)
+      box-shadow: rgba(0, 0, 0, .5) 0 0 10px
+      display: flex
+      justify-content: center
+      .inner
+        width: 14px
+        height: 14px
+        background: #ffffff
+        border-radius: 7px

@@ -1,7 +1,8 @@
 import React from 'react';
 import { combineReducers, createStore } from 'redux'
-import Graphics, {graphicsState} from './Graphics'
-import Panel, {panelState} from './Panel'
+import { SnackbarProvider } from 'notistack';
+import Graphics, { graphicsState } from './Graphics'
+import Panel, { panelState } from './Panel'
 
 import '../sass/App.sass';
 
@@ -9,11 +10,14 @@ const reducer = combineReducers({ panelState, graphicsState })
 const store = createStore(reducer)
 
 function App() {
+  localStorage.lat = localStorage.lat || 55.75
+  localStorage.lng = localStorage.lng || 37.62
+  localStorage.zoom = localStorage.zoom || 11
   return (
-    <>
-      <Graphics store={store} lat={55.75} lng={37.62} zoom={11} />
+    <SnackbarProvider>
+      <Graphics store={store} lat={localStorage.lat} lng={localStorage.lng} zoom={localStorage.zoom} />
       <Panel store={store} />
-    </>
+    </SnackbarProvider>
   );
 }
 
