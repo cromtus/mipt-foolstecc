@@ -52,10 +52,14 @@ class Graphics extends React.Component {
     if (!this.state.circle_fixed) {
       this.setState({circle_fixed: true})
       this.props.store.dispatch({ type: 'DB_REQUEST_SENT' })
-      requestPromise = Promise.resolve(Axios.get('test.json')).then(response => {
-        if (response.status === 200 && response.data.data) {
+      requestPromise = Promise.resolve(Axios.get('http://localhost:8080/api/nearby', {params: {
+        lat: this.state.circle_latlng.lat,
+        lng: this.state.circle_latlng.lng,
+        radius: this.state.radius
+      }})).then(response => {
+        if (response.status === 200 && response.data.routes) {
           this.props.store.dispatch({ type: 'DB_REQUEST_SUCCEED' })
-          this.setState({routes: response.data.data})
+          this.setState({routes: response.data.routes})
         } else {
           this.props.store.dispatch({ type: 'DB_REQUEST_FAILED' })
           alert('Ой, что-то навернулось')
