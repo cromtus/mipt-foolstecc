@@ -1,6 +1,8 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Nearby from './pages/Nearby'
+import Explore from './pages/Explore'
+
 
 const App = () => (
   <Router>
@@ -8,7 +10,8 @@ const App = () => (
       <Route path="/nearby">
         <Nearby />
       </Route>
-      <Route path="/users">
+      <Route path="/explore/:route_id">
+        <Explore />
       </Route>
       <Route path="/">
         <Redirect to='/nearby' />

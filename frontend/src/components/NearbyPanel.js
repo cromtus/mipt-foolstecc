@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import Slider from '@material-ui/core/Slider'
 import Tooltip from '@material-ui/core/Tooltip'
-import { routeStyle, toRussianType } from '../util/RoutesStyle'
+import { RoutesList } from '../components/RoutesList'
 import { Button, Loader } from '../components/UI'
 import '../sass/Panel.sass'
+
 
 export function panelState(state, action) {
   switch (action.type) {
@@ -22,7 +22,7 @@ export function panelState(state, action) {
 }
 
 const ValueLabelComponent = props => (
-  <Tooltip placement="bottom" title={props.value}>{props.children}</Tooltip>
+  <Tooltip placement="bottom" title={<span>{'R = ' + props.value + ' м'}</span>}>{props.children}</Tooltip>
 )
 
 const RadiusSlider = props => {
@@ -44,15 +44,6 @@ const RadiusSlider = props => {
   )
 }
 
-const RouteItem = props => (
-  <div className='route-item' {...props}>
-    <div className='color-layer' style={{background: props.color}} />
-    <div className='russian-type'>{toRussianType(props.route.type)}</div>
-    <div className='number'>{props.route.name}</div>
-    <Link className='explore' to={'/explore/' + props.route.id}>&raquo;</Link>
-  </div>
-)
-
 class Panel extends React.Component {
   constructor(props) {
     super()
@@ -66,18 +57,12 @@ class Panel extends React.Component {
         {this.state.reset_visible &&
           <Button className='reset' onClick={() => this.props.store.dispatch({ type: 'RESET' })}>Сбросить</Button>
         }
-        {!this.state.reset_visible &&
-          <RadiusSlider store={this.props.store} />
-        }
+        {!this.state.reset_visible && <RadiusSlider store={this.props.store} />}
         {this.state.loading && <Loader />}
-        <div className='routes-list'>
-          {this.state.routes.map(route => {
-            const {color, } = routeStyle(route)
-            return <RouteItem color={color} route={route} key={route.id}
-              onMouseOver={() => this.props.store.dispatch({ type: 'SHOW_ONLY', route_id: route.id })}
-              onMouseOut={() => this.props.store.dispatch({ type: 'SHOW_ONLY', route_id: null })} />
-          })}
-        </div>
+        <RoutesList routes={this.state.routes} soft={1}
+          handleMouseOver={route_id => this.props.store.dispatch({ type: 'SHOW_ONLY', route_id })}
+          handleMouseOut={() => this.props.store.dispatch({ type: 'SHOW_ONLY', route_id: null })}
+        />
       </div>
     )
   }

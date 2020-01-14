@@ -1,11 +1,11 @@
 import React from 'react'
 import Axios from 'axios'
-import Tooltip from '@material-ui/core/Tooltip';
-import { Promise } from 'bluebird';
+import Tooltip from '@material-ui/core/Tooltip'
+import { Promise } from 'bluebird'
 import { Map, TileLayer, Circle } from 'react-leaflet'
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'
 import RouteOnMap from './RouteOnMap'
-import { toRussianType } from '../util/RoutesStyle';
+import { toRussianType } from '../util/RoutesStyle'
 import '../sass/Leaflet.sass'
 
 let requestPromise;
@@ -85,7 +85,7 @@ class Graphics extends React.Component {
   }
 
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       show_circle: false,
       circle_testing: false,
