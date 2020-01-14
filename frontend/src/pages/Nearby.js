@@ -40,10 +40,11 @@ function Nearby() {
   localStorage.lat = localStorage.lat || 55.75
   localStorage.lng = localStorage.lng || 37.62
   localStorage.zoom = localStorage.zoom || 11
+  const circle = localStorage.circle && JSON.parse(localStorage.circle)
   return (
     <SnackbarProvider>
-      <Graphics store={store} lat={localStorage.lat} lng={localStorage.lng} zoom={localStorage.zoom} />
-      <Panel store={store} />
+      <Graphics store={store} lat={localStorage.lat} lng={localStorage.lng} zoom={localStorage.zoom} circle={circle} />
+      <Panel store={store} circle={circle} />
       <Help />
     </SnackbarProvider>
   );

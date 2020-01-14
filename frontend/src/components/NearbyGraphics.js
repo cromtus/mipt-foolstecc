@@ -19,6 +19,7 @@ export function graphicsState(state, action) {
     case 'RADIUS_CHANGED':
       return {radius: action.radius, show_circle: true}
     case 'RESET':
+      localStorage.circle = null
       requestPromise.cancel()
       return {circle_fixed: false, routes: []}
     case 'DB_REQUEST_SUCCEED':
@@ -59,39 +60,55 @@ class Graphics extends React.Component {
 
   handleClick(e) {
     if (!this.state.circle_fixed) {
-      this.setState({show_circle:true, circle_fixed: true, circle_latlng: e.latlng})
-      this.props.store.dispatch({ type: 'DB_REQUEST_SENT' })
-      requestPromise = Promise.resolve(Axios.get(
-        'http://' + window.location.hostname + ':8080/api/nearby',
-        {
-          params: {
-            lat: this.state.circle_latlng.lat,
-            lng: this.state.circle_latlng.lng,
-            radius: this.state.radius
-          }
+      this.process(e.latlng, this.state.radius)
+    }
+  }
+
+  process(latlng, radius) {
+    localStorage.circle = JSON.stringify({center: {lat: latlng.lat, lng: latlng.lng}, radius: radius})
+    this.setState({show_circle:true, circle_fixed: true, circle_latlng: latlng})
+    this.props.store.dispatch({ type: 'DB_REQUEST_SENT' })
+    requestPromise = Promise.resolve(Axios.get(
+      'http://' + window.location.hostname + ':8080/api/nearby',
+      {
+        params: {
+          lat: latlng.lat,
+          lng: latlng.lng,
+          radius: radius
         }
-      )).then(response => {
-        if (response.status === 200 && response.data.routes) {
-          this.props.store.dispatch({ type: 'DB_REQUEST_SUCCEED', data: response.data })
-        } else {
-          this.props.store.dispatch({ type: 'DB_REQUEST_FAILED' })
-          this.props.enqueueSnackbar('Ой, проблемы на стороне бэкэнда')
-        }
-      }).catch(() => {
+      }
+    )).then(response => {
+      if (response.status === 200 && response.data.routes) {
+        this.props.store.dispatch({ type: 'DB_REQUEST_SUCCEED', data: response.data })
+      } else {
         this.props.store.dispatch({ type: 'DB_REQUEST_FAILED' })
-        this.props.enqueueSnackbar('У вас либо нет интернета, либо бэкэнд-сервер не запущен')
-      })
+        this.props.enqueueSnackbar('Ой, проблемы на стороне бэкэнда')
+      }
+    }).catch(() => {
+      this.props.store.dispatch({ type: 'DB_REQUEST_FAILED' })
+      this.props.enqueueSnackbar('У вас либо нет интернета, либо бэкэнд-сервер не запущен')
+    })
+  }
+
+  componentDidMount() {
+    if (this.props.circle) {
+      const circle = this.props.circle
+      this.process(circle.center, circle.radius)
     }
   }
 
   constructor(props) {
     super(props)
+    let radius = 500;
+    if (this.props.circle && this.props.circle.radius) {
+      radius = this.props.circle.radius
+    }
     this.state = {
       show_circle: false,
       circle_testing: false,
       circle_fixed: false,
       circle_latlng: null,
-      radius: 500,
+      radius: radius,
       routes: [],
       tooltip_text: '',
       tooltip_coords: {x: -100, y: -100}

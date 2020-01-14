@@ -26,7 +26,7 @@ const ValueLabelComponent = props => (
 )
 
 const RadiusSlider = props => {
-  const [value, setValue] = React.useState(500);
+  const [value, setValue] = React.useState(props.radius);
 
   const handleChange = (event, newValue) => {
     props.store.dispatch({ type: 'RADIUS_CHANGED', radius: newValue })
@@ -52,12 +52,16 @@ class Panel extends React.Component {
   }
 
   render() {
+    let radius = 500
+    if (this.props.circle && this.props.circle.radius) {
+      radius = this.props.circle.radius
+    }
     return (
       <div className='panel' style={{height: this.state.routes.length ? '100%' : 'auto'}}>
         {this.state.reset_visible &&
           <Button className='reset' onClick={() => this.props.store.dispatch({ type: 'RESET' })}>Сбросить</Button>
         }
-        {!this.state.reset_visible && <RadiusSlider store={this.props.store} />}
+        {!this.state.reset_visible && <RadiusSlider store={this.props.store} radius={radius} />}
         {this.state.loading && <Loader />}
         <RoutesList routes={this.state.routes} soft={1}
           handleMouseOver={route_id => this.props.store.dispatch({ type: 'SHOW_ONLY', route_id })}
