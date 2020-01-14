@@ -9,7 +9,7 @@ const RouteItem = props => (
     <div className='color-layer' style={{background: props.color}} />
     <div className='russian-type'>{toRussianType(props.route.type)}</div>
     <div className='number'>{props.route.name}</div>
-    <Link className='explore' to={'/explore/' + props.route.id}>&raquo;</Link>
+    <Link className='explore' to={'/' + props.route.id}>&raquo;</Link>
   </div>
 )
 

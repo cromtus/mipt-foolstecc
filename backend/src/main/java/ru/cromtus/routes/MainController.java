@@ -14,23 +14,28 @@ public class MainController {
     @Autowired
     RouteInfoService routeInfoService;
 
+    @Autowired
+    SearchService searchService;
+
     @CrossOrigin(origins = "*")
     @GetMapping("/api/nearby")
     public NearbyService.Response findNearbyRoutes(
-            @RequestParam(value="lat") String lat,
-            @RequestParam(value="lng") String lng,
-            @RequestParam(value="radius") String radius
+            @RequestParam(value="lat") double lat,
+            @RequestParam(value="lng") double lng,
+            @RequestParam(value="radius") double radius
     ) {
-        return nearbyService.find(
-                Double.parseDouble(lat),
-                Double.parseDouble(lng),
-                Double.parseDouble(radius)
-        );
+        return nearbyService.find(lat, lng, radius);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/api/route")
-    public Route routeInfoService(@RequestParam(value="id") String id) {
-        return routeInfoService.find(Integer.parseInt(id));
+    public Route routeInfoService(@RequestParam(value="id") int id) {
+        return routeInfoService.find(id);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/api/search")
+    public List<Route> searchService(@RequestParam(value="pattern") String pattern) {
+        return searchService.find(pattern);
     }
 }

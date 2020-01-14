@@ -28,7 +28,7 @@ public class RouteRunsService {
 
     public List<Run> find(int route_id) {
         return jdbcTemplate.query(sql, preparedStatement -> {
-            preparedStatement.setString(1, String.valueOf(route_id));
+            preparedStatement.setInt(1, route_id);
         }, new Mapper());
     }
 }

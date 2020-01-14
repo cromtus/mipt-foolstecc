@@ -15,9 +15,9 @@
     width: 200px
     margin-right: 25px
   .reset
-    margin: 20px
+    margin: 20px 20px 0 0
   .loader
-    margin-right: 20px
+    margin: 20px 20px 0 0
     .outer
       animation: rotating 2s linear infinite;
       width: 40px
@@ -35,6 +35,7 @@
         background: #ffffff
         border-radius: 7px
   .routes-list
+    margin-top: 20px
     flex: 1
     overflow: auto
     .route-item
@@ -76,6 +77,19 @@
         margin: 5px 0
     .route-item.click
       cursor: pointer
+      padding-right: 8px
       .explore
-        visibility: hidden
+        opacity: 0
         padding: 0
+        margin: 0
+        left: 0
+        color: transparent
+        position: absolute
+        width: 100%
+        height: 100%
+  .search-input
+    margin: 20px 20px 0 0
+    padding: 5px
+    outline: none
+    border: 1px solid #555555
+    border-radius: 5px

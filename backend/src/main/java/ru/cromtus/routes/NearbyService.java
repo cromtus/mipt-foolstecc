@@ -66,10 +66,10 @@ public class NearbyService {
         double deltaLng = 360 * radius / (EQUATOR_LENGTH * Math.cos(Math.PI * lat / 180));
 
         List<DatabaseRow> rows = jdbcTemplate.query(sql, preparedStatement -> {
-            preparedStatement.setString(1, String.valueOf(lat));
-            preparedStatement.setString(2, String.valueOf(deltaLat));
-            preparedStatement.setString(3, String.valueOf(lng));
-            preparedStatement.setString(4, String.valueOf(deltaLng));
+            preparedStatement.setDouble(1, lat);
+            preparedStatement.setDouble(2, deltaLat);
+            preparedStatement.setDouble(3, lng);
+            preparedStatement.setDouble(4, deltaLng);
         }, new Mapper());
         ArrayList<ArrayList<Double>> points;
         final int INITIAL = -1;

@@ -10,7 +10,7 @@ const App = () => (
       <Route path="/nearby">
         <Nearby />
       </Route>
-      <Route path="/explore/:route_id">
+      <Route path="/:route_id">
         <Explore />
       </Route>
       <Route path="/">
