@@ -12,14 +12,9 @@ function routeTitle(route) {
 }
 
 function loadRoute(route_id, store) {
-  Axios.get(
-    'http://' + window.location.hostname + ':8080/api/route',
-    {
-      params: {
-        id: route_id
-      }
-    }
-  ).then(response => {
+  Axios.get('/api/route', {
+    params: {id: route_id}
+  }).then(response => {
     if (response.status === 200 && response.data.id) {
       store.dispatch({ type: 'ROUTE_LOADED', route: response.data })
     } else {

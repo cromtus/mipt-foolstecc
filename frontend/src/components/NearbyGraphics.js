@@ -68,16 +68,13 @@ class Graphics extends React.Component {
     localStorage.circle = JSON.stringify({center: {lat: latlng.lat, lng: latlng.lng}, radius: radius})
     this.setState({show_circle:true, circle_fixed: true, circle_latlng: latlng})
     this.props.store.dispatch({ type: 'DB_REQUEST_SENT' })
-    requestPromise = Promise.resolve(Axios.get(
-      'http://' + window.location.hostname + ':8080/api/nearby',
-      {
-        params: {
-          lat: latlng.lat,
-          lng: latlng.lng,
-          radius: radius
-        }
+    requestPromise = Promise.resolve(Axios.get('/api/nearby', {
+      params: {
+        lat: latlng.lat,
+        lng: latlng.lng,
+        radius: radius
       }
-    )).then(response => {
+    })).then(response => {
       if (response.status === 200 && response.data.routes) {
         this.props.store.dispatch({ type: 'DB_REQUEST_SUCCEED', data: response.data })
       } else {

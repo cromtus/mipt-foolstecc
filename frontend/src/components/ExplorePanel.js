@@ -3,6 +3,8 @@ import Axios from 'axios'
 import { RoutesList } from './RoutesList'
 import { Loader } from '../components/UI'
 
+import '../sass/Panel.sass'
+
 export function panelState(state, action) {
   switch (action.type) {
     case 'ROUTE_NOT_LOADED':
@@ -32,18 +34,15 @@ export default class Panel extends React.Component {
         {!this.state.loading && 
           <input className='search-input' placeholder='Найти маршрут..' 
             onKeyUp={e => {
-              const pattern = e.target.value
+              const pattern = e.target.value.trim()
               if (pattern === '') {
                 this.setState({routes: []})
                 return
               }
               this.setState({suggestion_loading: true})
-              Axios.get(
-                'http://' + window.location.hostname + ':8080/api/search',
-                {
-                  params: {pattern}
-                }
-              ).then(response => {
+              Axios.get('/api/search', {
+                params: {pattern}
+              }).then(response => {
                 if (response.status === 200 && typeof response.data === "object") {
                   this.setState({suggestion_loading: false, routes: response.data})
                 } else {
