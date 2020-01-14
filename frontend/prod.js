@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 app.use(express.static('build'))
-app.use('/api', proxy('localhost:8080/api', {
+app.use('/api', proxy('localhost:9000/api', {
   proxyReqPathResolver: req => '/api' + req.url
 }))
 
