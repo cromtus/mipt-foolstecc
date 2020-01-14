@@ -32,7 +32,7 @@ public class NearbyService {
             "routes.id, routes.type, routes.name, runs.id, runs.points FROM routes " +
             "INNER JOIN runs ON routes.id=runs.route_id " +
             "INNER JOIN stops_to_runs ON runs.id=stops_to_runs.run_id " +
-            "INNER JOIN stops ON stops_to_runs.stop_idget=stops.id " +
+            "INNER JOIN stops ON stops_to_runs.stop_id=stops.id " +
             "WHERE POWER((stops.lat - ?) / ?, 2) + POWER((stops.lng - ?) / ?, 2) < 1 " +
             "GROUP BY runs.id " +
             "ORDER BY routes.id;";
@@ -41,8 +41,8 @@ public class NearbyService {
     private JdbcTemplate jdbcTemplate;
 
     public NearbyServiceResponse find(double lat, double lng, double radius) {
-        double deltaLat = 360 * radius / (EQUATOR_LENGTH * Math.cos(Math.PI * lng / 180));
-        double deltaLng = 360 * radius / EQUATOR_LENGTH;
+        double deltaLat = 360 * radius / EQUATOR_LENGTH;
+        double deltaLng = 360 * radius / (EQUATOR_LENGTH * Math.cos(Math.PI * lat / 180));
 
         List<NearbyServiceRow> rows = jdbcTemplate.query(sql, preparedStatement -> {
             preparedStatement.setString(1, String.valueOf(lat));
