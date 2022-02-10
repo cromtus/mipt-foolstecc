@@ -9,7 +9,7 @@
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.0",
     "leaflet": "^1.6.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "notistack": "^0.9.7",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
